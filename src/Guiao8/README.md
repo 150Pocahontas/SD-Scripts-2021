@@ -1,3 +1,1 @@
-Conexao completa entre servidor e cliente utilizando varias threads\n
-Reune toda a matéria\n
-A serialização é a parte da frame
+Conexao completa entre servidor e cliente utilizando varias threads  Reune toda a matéria  A serialização é a parte da frame
