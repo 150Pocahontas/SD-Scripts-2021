@@ -5,20 +5,20 @@ import java.net.Socket;
 public class ThreadedClient {
     public static void main(String[] args) throws Exception {
         Socket s = new Socket("localhost", 12345);
-        Demultiplexer m = new Demultiplexer(new TaggedConnection(s));
+        Demultiplexer m = new Demultiplexer(new TaggedConnection(s)); //conexao atravesdo demiltiplexer
         m.start();
 
         Thread[] threads = {
 
                 new Thread(() -> {
-                    try  {
+                    try{
                         // send request
                         m.send(1, "Ola".getBytes());
                         Thread.sleep(100);
                         // get reply
-                        byte[] data = m.receive(1);
+                        byte[] data = m.receive(1); //resposta pela tagque quero receber
                         System.out.println("(1) Reply: " + new String(data));
-                    }  catch (Exception ignored) {}
+                    }catch (Exception ignored) {}
                 }),
 
                 new Thread(() -> {

@@ -13,7 +13,7 @@ import static guiao8.TaggedConnection.Frame;
 public class Demultiplexer implements AutoCloseable {
 
     private final TaggedConnection conn;
-    private final Map<Integer,Entry> buffer = new HashMap<>();
+    private final Map<Integer,Entry> buffer = new HashMap<>(); //mapa que mapeia a cada tag
     private ReentrantLock lock = new ReentrantLock(); //fora da entry por causa dos multiplos gets que poderia gerar
     private IOException exception;
 
@@ -30,7 +30,7 @@ public class Demultiplexer implements AutoCloseable {
                 while(true) {
                     //1. ler frame da conexao
                     try {
-                        Frame frame = this.conn.receive();
+                        Frame frame = this.conn.receive(); //rececao de frame continua
                         lock.lock();
                         try {
                             //2. colocar os dados da frame (byte[]) no canal de saida de correspondete
@@ -73,20 +73,15 @@ public class Demultiplexer implements AutoCloseable {
         try {
             //1. obter queue da tag
             Entry e = get(tag); //dá-nos a tag
-            //2.bloquearaté que haja mensagens para ler
+            //2.bloqueara té que haja mensagens para ler
             while (e.queue.isEmpty() && this.exception == null) {
                 e.cond.await();
             }
-            if (this.exception != null) {
-                //3.ao extir, retorna dados
-                byte[] res = e.queue.poll();
-                return res;
-            }
-            //return this.exception;
+            //3.ao extir, retorna dados
+            return e.queue.poll();
         }finally {
             lock.unlock();
         }
-        return null;
     }
 
     public void close() throws IOException {
