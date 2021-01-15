@@ -1,14 +1,11 @@
-package guiao8;
+package Guiao8;
 //demultiplexer - dispositivo eletronico que recebe de um canal e coloca a mensagem em multiplos canais
 //esta do lado do cliente
 
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import static guiao8.TaggedConnection.Frame;
+import java.awt.*;
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.locks.*;
 
 public class Demultiplexer implements AutoCloseable {
 
@@ -30,7 +27,7 @@ public class Demultiplexer implements AutoCloseable {
                 while(true) {
                     //1. ler frame da conexao
                     try {
-                        Frame frame = this.conn.receive(); //rececao de frame continua
+                        TaggedConnection.Frame frame = this.conn.receive(); //rececao de frame continua
                         lock.lock();
                         try {
                             //2. colocar os dados da frame (byte[]) no canal de saida de correspondete
@@ -60,9 +57,10 @@ public class Demultiplexer implements AutoCloseable {
         return e;
     }
 
-    public void send(Frame frame) throws IOException {
+    public void send(TaggedConnection.Frame frame) throws IOException {
         this.conn.send(frame);
     }
+
     public void send(int tag, byte[] data) throws IOException {
         this.conn.send(tag,data);
     }

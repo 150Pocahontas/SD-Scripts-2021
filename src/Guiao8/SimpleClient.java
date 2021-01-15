@@ -1,4 +1,4 @@
-package guiao8;
+package Guiao8;
 
 //Gestão da conexão
 //trabalhar com uma camada interior entre o cliente e o servidor

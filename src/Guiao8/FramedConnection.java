@@ -1,4 +1,4 @@
-package guiao8;
+package Guiao8;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

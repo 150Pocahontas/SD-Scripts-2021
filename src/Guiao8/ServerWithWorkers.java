@@ -1,9 +1,7 @@
-package guiao8;
+package Guiao8;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import static guiao8.TaggedConnection.Frame;
 
 public class ServerWithWorkers {
         final static int WORKERS_PER_CONNECTION = 3;
@@ -18,7 +16,7 @@ public class ServerWithWorkers {
                 Runnable worker = () -> {
                     try (c) {
                         for (;;) {
-                            Frame frame = c.receive();
+                            TaggedConnection.Frame frame = c.receive();
                             int tag = frame.tag;
                             String data = new String(frame.data);
                             if (frame.tag == 0)
